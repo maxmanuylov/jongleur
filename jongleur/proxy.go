@@ -36,13 +36,7 @@ func handleConnection(clientConnection *net.TCPConn, data *runtimeData) {
             continue
         }
 
-        done := make(chan bool, 2)
-
-        go copyStream(clientConnection, serviceConnection, done)
-        go copyStream(serviceConnection, clientConnection, done)
-
-        <-done
-        <-done
+        link(clientConnection, serviceConnection)
 
         return
     }
@@ -59,7 +53,22 @@ func nextHost(data *runtimeData) (string, error) {
     }
 }
 
+func link(clientConnection *net.TCPConn, serviceConnection net.Conn) {
+    defer serviceConnection.Close()
+
+    done := make(chan bool, 2)
+
+    go copyStream(clientConnection, serviceConnection, done)
+    go copyStream(serviceConnection, clientConnection, done)
+
+    <-done
+    <-done
+}
+
 func copyStream(from io.Reader, to io.Writer, done chan<- bool) {
+    defer func() {
+        done <- true
+    }()
+
     io.Copy(to, from)
-    done <- true
 }
