@@ -6,6 +6,7 @@ import (
     "github.com/maxmanuylov/jongleur/jongleur"
     "github.com/maxmanuylov/jongleur/item"
     "github.com/maxmanuylov/jongleur/util"
+    "log"
     "os"
 )
 
@@ -28,18 +29,18 @@ func main() {
 }
 
 func runItem(args []string) {
-    var config = &item.Config{}
+    config := &item.Config{}
 
     flagSet := itemFlagSet(config)
     flagSet.Parse(args)
 
-    if err := item.Run(config); err != nil {
+    if err := item.Run(config, newLogger()); err != nil {
         printErrorAndExit(err, jongleurItemName, flagSet)
     }
 }
 
 func runJongleur(args []string) {
-    var config = &jongleur.Config{}
+    config := &jongleur.Config{}
 
     flagSet := jongleurFlagSet(config)
     flagSet.Parse(args)
@@ -114,4 +115,8 @@ func usageFunc(name string, flagSet *flag.FlagSet) func() {
         flagSet.PrintDefaults()
         fmt.Fprintln(os.Stderr, "")
     }
+}
+
+func newLogger() *log.Logger {
+    return log.New(os.Stderr, "", log.LstdFlags | log.Lshortfile)
 }
