@@ -4,9 +4,9 @@ VERSION="0.2"
 
 rm -rf bin
 
-CGO_ENABLED=0 GOOS=darwin  GOARCH=amd64 go build -a -o bin/macos/jongleur
-CGO_ENABLED=0 GOOS=linux   GOARCH=amd64 go build -a -o bin/linux/jongleur
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -o bin/windows/jongleur.exe
+GOOS=darwin  GOARCH=amd64 go build -o bin/macos/jongleur
+GOOS=linux   GOARCH=amd64 go build -o bin/linux/jongleur
+GOOS=windows GOARCH=amd64 go build -o bin/windows/jongleur.exe
 
 tar czf bin/jongleur-$VERSION-macos.tar.gz --directory=bin/macos jongleur
 tar czf bin/jongleur-$VERSION-linux.tar.gz --directory=bin/linux jongleur
