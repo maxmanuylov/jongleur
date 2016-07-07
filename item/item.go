@@ -34,6 +34,7 @@ func Run(config *Config, logger *log.Logger) error {
     }
 
     ticker := time.NewTicker(data.period)
+    defer ticker.Stop()
 
     go func() {
         for range ticker.C {
@@ -42,8 +43,6 @@ func Run(config *Config, logger *log.Logger) error {
     }()
 
     util.WaitForTermination()
-
-    ticker.Stop()
 
     return nil
 }
@@ -72,8 +71,13 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
         return nil, errors.New("Invalid symbol in host: '/'")
     }
 
-    if _, err = strconv.Atoi(port); err != nil {
+    portNum, err := strconv.Atoi(port)
+    if err != nil {
         return nil, err
+    }
+
+    if portNum < 0 || portNum > 0xFFFF {
+        return nil, errors.New("Invalid port value")
     }
 
     if config.Period <= 0 {

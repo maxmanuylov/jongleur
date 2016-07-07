@@ -45,7 +45,7 @@ func runJongleur(args []string) {
     flagSet := jongleurFlagSet(config)
     flagSet.Parse(args)
 
-    if err := jongleur.Run(config); err != nil {
+    if err := jongleur.Run(config, newLogger()); err != nil {
         printErrorAndExit(err, jongleurName, flagSet)
     }
 }
