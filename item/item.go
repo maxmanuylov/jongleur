@@ -14,10 +14,14 @@ import (
     "time"
 )
 
+type StringHolder struct {
+    Value string
+}
+
 type Config struct {
     Type      string
     Host      string
-    Health    string
+    Health    StringHolder // Health check can be disabled
     Period    int
     Tolerance int
     Etcd      string
@@ -102,7 +106,7 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
         &http.Client{
             Timeout: semiPeriodDuration,
         },
-        fmt.Sprintf("http://%s/%s", config.Host, strings.TrimPrefix(config.Health, "/")),
+        config.Health.Value,
         etcdClient,
         fmt.Sprintf("%s/%s", util.EtcdItemsKey(config.Type), config.Host),
         periodDuration * time.Duration(config.Tolerance) + semiPeriodDuration,
@@ -124,6 +128,10 @@ func checkAndRefreshItem(data *runtimeData) {
 }
 
 func isItemAlive(data *runtimeData) (bool, error) {
+    if data.healthUrl == "" {
+        return true
+    }
+
     request, err := http.NewRequest("HEAD", data.healthUrl, nil)
     if err != nil {
         return false, err
