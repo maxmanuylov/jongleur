@@ -75,13 +75,15 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
         return nil, errors.New("Invalid symbol in host: '/'")
     }
 
-    portNum, err := strconv.Atoi(port)
-    if err != nil {
-        return nil, err
-    }
+    if port != "*" {
+        portNum, err := strconv.Atoi(port)
+        if err != nil {
+            return nil, err
+        }
 
-    if portNum < 0 || portNum > 0xFFFF {
-        return nil, errors.New("Invalid port value")
+        if portNum < 0 || portNum > 0xFFFF {
+            return nil, errors.New("Invalid port value")
+        }
     }
 
     if config.Period <= 0 {

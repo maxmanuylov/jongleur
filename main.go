@@ -56,7 +56,7 @@ func itemFlagSet(config *item.Config) *flag.FlagSet {
     flagSet.Usage = usageFunc(jongleurItemName, flagSet)
 
     flagSet.StringVar(&config.Type, "type", "", "service type; must be the same for all instances of the same service (required)")
-    flagSet.StringVar(&config.Host, "host", "", "advertised host in \"<ip>:<port>\" format; service must be available from the network by this host (required)")
+    flagSet.StringVar(&config.Host, "host", "", "advertised host; use \"<ip>:<port>\" format to advertise the specified port and \"<ip>:*\" format to advertise all the ports (request destination port is used in this case); service must be available from the network by this host (required)")
     flagSet.StringVar(&config.Health.Value, "health", "", "service health checking HTTP URL; response code 2xx is expected to treat service healthy; if not specified heath check is disabled")
     flagSet.IntVar(&config.Period, "period", 5, "health check period in seconds")
     flagSet.IntVar(&config.Tolerance, "tolerance", 3, "number of allowed sequential health check failures to not treat the service as dead")

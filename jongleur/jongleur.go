@@ -8,6 +8,7 @@ import (
     "golang.org/x/net/context"
     "log"
     "net"
+    "strconv"
     "strings"
     "time"
 )
@@ -56,6 +57,7 @@ func Run(config *Config, logger *log.Logger) error {
 }
 
 type runtimeData struct {
+    port       string
     period     time.Duration
     logger     *log.Logger
     etcdClient etcd.Client
@@ -92,6 +94,7 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
     hosts := make(chan string)
 
     return &runtimeData{
+        strconv.Itoa(config.Port),
         periodDuration,
         logger,
         etcdClient,
@@ -119,7 +122,7 @@ func syncItems(data *runtimeData) {
     if response.Node.Nodes != nil {
         for _, node := range response.Node.Nodes {
             if !node.Dir {
-                newItems = append(newItems, simpleKey(node.Key))
+                newItems = append(newItems, strings.Replace(simpleKey(node.Key), "*", data.port, -1))
             }
         }
     }
