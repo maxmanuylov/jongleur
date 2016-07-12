@@ -131,7 +131,7 @@ func checkAndRefreshItem(data *runtimeData) {
 
 func isItemAlive(data *runtimeData) (bool, error) {
     if data.healthUrl == "" {
-        return true
+        return true, nil
     }
 
     request, err := http.NewRequest("HEAD", data.healthUrl, nil)
