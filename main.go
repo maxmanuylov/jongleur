@@ -29,7 +29,7 @@ func main() {
 }
 
 func runItem(args []string) {
-    config := &item.Config{Health:item.StringHolder{}}
+    config := &item.Config{Health:&item.StringHolder{}}
 
     flagSet := itemFlagSet(config)
     flagSet.Parse(args)

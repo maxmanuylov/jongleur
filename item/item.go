@@ -21,7 +21,7 @@ type StringHolder struct {
 type Config struct {
     Type      string
     Host      string
-    Health    StringHolder // Health check can be disabled
+    Health    *StringHolder // Health check can be disabled
     Period    int
     Tolerance int
     Etcd      string
