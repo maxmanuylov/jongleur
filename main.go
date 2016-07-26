@@ -3,8 +3,10 @@ package main
 import (
     "flag"
     "fmt"
-    "github.com/maxmanuylov/jongleur/jongleur"
     "github.com/maxmanuylov/jongleur/item"
+    "github.com/maxmanuylov/jongleur/jongleur"
+    "github.com/maxmanuylov/jongleur/jongleur/etcd"
+    "github.com/maxmanuylov/jongleur/jongleur/regular"
     "github.com/maxmanuylov/jongleur/util"
     "log"
     "os"
@@ -13,7 +15,9 @@ import (
 const (
     jongleurName = "jongleur"
     itemName = "item"
+    etcdName = "etcd"
     jongleurItemName = jongleurName + " " + itemName
+    jongleurEtcdName = jongleurName + " " + etcdName
 )
 
 func main() {
@@ -21,9 +25,12 @@ func main() {
         printCommonUsageAndExit()
     }
 
-    if os.Args[1] == itemName {
+    switch os.Args[1] {
+    case itemName:
         runItem(os.Args[2:])
-    } else {
+    case etcdName:
+        runEtcdProxy(os.Args[2:])
+    default:
         runJongleur(os.Args[1:])
     }
 }
@@ -39,13 +46,34 @@ func runItem(args []string) {
     }
 }
 
+func runEtcdProxy(args []string) {
+    config := &etcd.Config{}
+
+    flagSet := etcdFlagSet(config)
+    flagSet.Parse(args)
+
+    jongleurConfig, err := config.ToJongleurConfig()
+    if err != nil {
+        printErrorAndExit(err, jongleurEtcdName, flagSet)
+    }
+
+    if err := jongleur.Run(jongleurConfig, newLogger()); err != nil {
+        printErrorAndExit(err, jongleurEtcdName, flagSet)
+    }
+}
+
 func runJongleur(args []string) {
-    config := &jongleur.Config{}
+    config := &regular.Config{}
 
     flagSet := jongleurFlagSet(config)
     flagSet.Parse(args)
 
-    if err := jongleur.Run(config, newLogger()); err != nil {
+    jongleurConfig, err := config.ToJongleurConfig()
+    if err != nil {
+        printErrorAndExit(err, jongleurName, flagSet)
+    }
+
+    if err := jongleur.Run(jongleurConfig, newLogger()); err != nil {
         printErrorAndExit(err, jongleurName, flagSet)
     }
 }
@@ -65,12 +93,26 @@ func itemFlagSet(config *item.Config) *flag.FlagSet {
     return flagSet
 }
 
-func jongleurFlagSet(config *jongleur.Config) *flag.FlagSet {
+func etcdFlagSet(config *etcd.Config) *flag.FlagSet {
+    flagSet := flag.NewFlagSet(jongleurEtcdName, flag.ExitOnError)
+
+    flagSet.Usage = usageFunc(jongleurEtcdName, flagSet)
+
+    flagSet.BoolVar(&config.Local, "local", false, "flag to restrict listen interface to \"127.0.0.1\"; default is \"0.0.0.0\"")
+    flagSet.IntVar(&config.Port, "port", 2379, "local port to listen")
+    flagSet.IntVar(&config.Period, "period", 10, "etcd members list synchronization period in seconds")
+    flagSet.StringVar(&config.Discovery, "discovery", "", "etcd discovery URL (required)")
+
+    return flagSet
+}
+
+func jongleurFlagSet(config *regular.Config) *flag.FlagSet {
     flagSet := flag.NewFlagSet(jongleurName, flag.ExitOnError)
 
     flagSet.Usage = usageFunc(jongleurName, flagSet)
 
     flagSet.StringVar(&config.Items, "items", "", "type of the service to proxy (required)")
+    flagSet.BoolVar(&config.Local, "local", false, "flag to restrict listen interface to \"127.0.0.1\"; default is \"0.0.0.0\"")
     flagSet.IntVar(&config.Port, "port", 0, "local port to listen; interface to listen is always \"0.0.0.0\" (required)")
     flagSet.IntVar(&config.Period, "period", 10, "service instances list synchronization period in seconds")
     flagSet.StringVar(&config.Etcd, "etcd", "http://127.0.0.1:2379", "etcd URL")

@@ -11,13 +11,23 @@ import (
 
 func Check(objectPointer interface{}) error {
     value := reflect.ValueOf(objectPointer).Elem()
+    _type := reflect.TypeOf(objectPointer).Elem()
+
     for i := 0; i < value.NumField(); i++ {
-        field := value.Field(i)
-        if reflect.DeepEqual(field.Interface(), reflect.Zero(field.Type()).Interface()) {
-            return UsageError{fmt.Sprintf("\"%s\" option is not specified", strings.ToLower(reflect.TypeOf(objectPointer).Elem().Field(i).Name))}
+        if isZero(value.Field(i)) {
+            return UsageError{fmt.Sprintf("\"%s\" option is not specified", strings.ToLower(_type.Field(i).Name))}
         }
     }
+
     return nil
+}
+
+func isZero(value reflect.Value) bool {
+    valueType := value.Type()
+    if valueType.Kind() == reflect.Bool {
+        return false
+    }
+    return reflect.DeepEqual(value.Interface(), reflect.Zero(valueType).Interface())
 }
 
 type UsageError struct {

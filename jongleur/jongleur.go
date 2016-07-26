@@ -5,19 +5,19 @@ import (
     etcd "github.com/coreos/etcd/client"
     "github.com/maxmanuylov/jongleur/util"
     "github.com/maxmanuylov/jongleur/util/cycle"
-    "golang.org/x/net/context"
     "log"
     "net"
-    "strconv"
-    "strings"
     "time"
 )
 
+type ItemsLoader func (etcdClient etcd.Client) ([]string, error)
+
 type Config struct {
-    Items  string
-    Port   int
-    Period int
-    Etcd   string
+    Local       bool
+    Port        int
+    Period      int
+    Etcd        []string
+    ItemsLoader ItemsLoader
 }
 
 func Run(config *Config, logger *log.Logger) error {
@@ -41,7 +41,7 @@ func Run(config *Config, logger *log.Logger) error {
         }
     }()
 
-    tcpListener, err := net.ListenTCP("tcp", &net.TCPAddr{Port:config.Port})
+    tcpListener, err := net.ListenTCP("tcp", config.getTCPAddr())
     if err != nil {
         return err
     }
@@ -57,20 +57,15 @@ func Run(config *Config, logger *log.Logger) error {
 }
 
 type runtimeData struct {
-    port       string
     period     time.Duration
     logger     *log.Logger
     etcdClient etcd.Client
-    etcdKey    string
+    loadItems  ItemsLoader
     mcycle     *cycle.MutableCycle
     hosts      <-chan string
 }
 
 func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error) {
-    if strings.Contains(config.Items, "/") {
-        return nil, errors.New("Invalid symbol in items: '/'")
-    }
-
     if config.Port < 0 || config.Port > 0xFFFF {
         return nil, errors.New("Invalid port value")
     }
@@ -83,7 +78,7 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
     semiPeriodDuration := periodDuration / 2
 
     etcdClient, err := etcd.New(etcd.Config{
-        Endpoints:               []string{config.Etcd},
+        Endpoints:               config.Etcd,
         Transport:               etcd.DefaultTransport,
         HeaderTimeoutPerRequest: semiPeriodDuration,
     })
@@ -94,47 +89,31 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
     hosts := make(chan string)
 
     return &runtimeData{
-        strconv.Itoa(config.Port),
         periodDuration,
         logger,
         etcdClient,
-        util.EtcdItemsKey(config.Items),
+        config.ItemsLoader,
         cycle.NewMutableCycle(hosts),
         hosts,
     }, nil
 }
 
 func syncItems(data *runtimeData) {
-    keys := etcd.NewKeysAPI(data.etcdClient)
-
-    response, err := keys.Get(context.Background(), data.etcdKey, nil)
+    newItems, err := data.loadItems(data.etcdClient)
     if err != nil {
-        data.logger.Printf("Failed to get items from etcd: %s\n", err.Error())
+        data.logger.Printf("Failed to get items from etcd: %v\n", err)
         return
     }
 
-    if response.Node == nil {
-        return
+    if newItems != nil {
+        data.mcycle.SyncItems(newItems)
     }
-
-    newItems := make([]string, 0)
-
-    if response.Node.Nodes != nil {
-        for _, node := range response.Node.Nodes {
-            if !node.Dir {
-                newItems = append(newItems, strings.Replace(simpleKey(node.Key), "*", data.port, -1))
-            }
-        }
-    }
-
-    data.mcycle.SyncItems(newItems)
 }
 
-func simpleKey(key string) string {
-    pos := strings.LastIndex(key, "/")
-    if pos == -1 {
-        return key
+func (config *Config) getTCPAddr() (*net.TCPAddr) {
+    if config.Local {
+        return &net.TCPAddr{IP: []byte{127, 0, 0, 1}, Port: config.Port}
     } else {
-        return key[pos + 1:]
+        return &net.TCPAddr{Port: config.Port}
     }
 }

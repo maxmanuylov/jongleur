@@ -1,9 +1,11 @@
 #!/bin/bash
 
-VERSION="0.4"
+VERSION="0.5"
 DOCKER_REGISTRY="docker.io"
 
 rm -rf bin
+
+export GO15VENDOREXPERIMENT=1
 
 GOOS=darwin  GOARCH=amd64 go build -o bin/macos/jongleur
 GOOS=linux   GOARCH=amd64 go build -o bin/linux/jongleur
