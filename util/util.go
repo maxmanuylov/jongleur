@@ -15,7 +15,7 @@ func Check(objectPointer interface{}) error {
 
     for i := 0; i < value.NumField(); i++ {
         if isZero(value.Field(i)) {
-            return UsageError{fmt.Sprintf("\"%s\" option is not specified", strings.ToLower(_type.Field(i).Name))}
+            return UsageError{message: fmt.Sprintf("\"%s\" option is not specified", strings.ToLower(_type.Field(i).Name))}
         }
     }
 

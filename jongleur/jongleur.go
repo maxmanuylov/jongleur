@@ -89,12 +89,12 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
     hosts := make(chan string)
 
     return &runtimeData{
-        periodDuration,
-        logger,
-        etcdClient,
-        config.ItemsLoader,
-        cycle.NewMutableCycle(hosts),
-        hosts,
+        period: periodDuration,
+        logger: logger,
+        etcdClient: etcdClient,
+        loadItems: config.ItemsLoader,
+        mcycle: cycle.NewMutableCycle(hosts),
+        hosts: hosts,
     }, nil
 }
 
