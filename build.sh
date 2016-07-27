@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.5"
+VERSION="v0.5"
 DOCKER_REGISTRY="docker.io"
 
 rm -rf bin
