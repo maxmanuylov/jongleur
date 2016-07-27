@@ -1,0 +1,711 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"path": "context",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "C8Ves4/b1PIHL6epPCLE8MQt4Kw=",
+			"path": "github.com/coreos/etcd",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "RkF5+IVeZXNDAJIShEkD8RsquX0=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/bitbucket.org/ww/goautoneg",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "skjUV7Yn1GQItS/mWjx/8UyBSN4=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/beorn7/perks/quantile",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "CAmPsDfxHYOl/Q7cJ3HgkXnHEeE=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/boltdb/bolt",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "FHe1r2sqOFSJMJjOU8Fu6byGrSU=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/coreos/go-semver/semver",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "XYALZKPhHXA3NraeaBFMiGDkFug=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/coreos/go-systemd/daemon",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "E2a5TaCbwqs7PwP1fvfWLhvgr38=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/coreos/go-systemd/journal",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "rMvl69JUDiJYt7n3CxtEHzxOlMU=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/coreos/go-systemd/util",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "dvmCYwxvMZ/+ea32RHN8Hcu2BY8=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/coreos/pkg/capnslog",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "iZChvHpeg+x7WBcrmvtwfGvPoXc=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/gogo/protobuf/proto",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "J1qVyXuEUrCvQP5Wey39QMpkP/w=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/golang/protobuf/proto",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "gEwsRuA3ABfKq36Sz/IEAs8pMFM=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/google/btree",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "QknkOw3Nux8O0ZRY/FZMJvuP1Qo=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/jonboulle/clockwork",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "65cXa8O5D6Yv40KcFZugbZ5ZwZ8=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/matttproud/golang_protobuf_extensions/pbutil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "UGsxs8JV6+xDQfgYetPuNFv382I=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/prometheus/client_golang/prometheus",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "/bjNhS+oH3pwY1DfYWX9eWPHwBU=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/prometheus/client_model/go",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "oeAhFGAmoNuklLsT1MVddKU4oow=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/prometheus/common/expfmt",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "0Gejw/S/gsQZcXrJEcmNnIUw1FU=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/prometheus/common/model",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "peJrZv6K2P6EvQLFLEbLrublstE=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/prometheus/procfs",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "SnTUzwYa4snkJ/HQWcvxCnbw2eY=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/ugorji/go/codec",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "T6Y4cjkvQCzZvaqDwE4Mn8Vf9iw=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/github.com/xiang90/probing",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "/YjKZ/bCNXON3ZGj9k+bVssIOdc=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/crypto/bcrypt",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "6UeL+FiLErkfE5hkJzE2dIQ81Zw=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/crypto/blowfish",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "xp3o8iG8/WloqNClTPgaExgWYrU=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "s6fVdq2IMT1fAMI8oUc+NVcBO8s=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/http2",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "a3gGcTQmvEY5YiQff3GQBdnZ2Rg=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/http2/hpack",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "MQrz9SPy43RpBu4X1ENvRPMj6LU=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/internal/timeseries",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "cHTAhxLRE/mTg4KylS/vi9WrPNo=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/trace",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "8XpFaQL5RZD5r+4xJpqHvR+X0Ms=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/sys/unix",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "yM+HsKehRx/aYfzJt0JL4wUTosE=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/google.golang.org/grpc",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "pMJfTKQMk3KXgncik4PTWQFFf10=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/google.golang.org/grpc/codes",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "KGdFhd4GYQEcLSV+N0KAFID9tYM=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/google.golang.org/grpc/credentials",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "xXPKe4Mao1sdXGWuCM6R+GZydUg=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/google.golang.org/grpc/grpclog",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "jsj2KRwMguhjfbOkH9g5HW+vdwc=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/google.golang.org/grpc/metadata",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "50DsPWBdSy1wHXzXwgne5pG/Fno=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/google.golang.org/grpc/naming",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "yMJN9OHlTV0DeVdNu4K3FBzETYk=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/google.golang.org/grpc/peer",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "2kV+0oNnjuhNqxc/Az651AgiJfA=",
+			"path": "github.com/coreos/etcd/Godeps/_workspace/src/google.golang.org/grpc/transport",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "RTa6IpJYNqLVaSf53TJK0S8xgaQ=",
+			"path": "github.com/coreos/etcd/auth",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "jDu8F90MBsfYcFGs4YTdcgKpl3A=",
+			"path": "github.com/coreos/etcd/client",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "FG5MYDkeOWtZwgUfi/STXsVQy5I=",
+			"path": "github.com/coreos/etcd/compactor",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "OgHfkh20O4M/quPvmXe67asNltk=",
+			"path": "github.com/coreos/etcd/discovery",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "DDiV+GCsjiPQ+/U9/NpJGjSqe5M=",
+			"path": "github.com/coreos/etcd/error",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "MYdADq2J7td7mz4DrtWQpDuydpE=",
+			"path": "github.com/coreos/etcd/etcdmain",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "RAVjfAfFXGFU5pw8rp3HAdniA5k=",
+			"path": "github.com/coreos/etcd/etcdserver",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "BOFwrnMKglL+e8SVgZW20zQw9bE=",
+			"path": "github.com/coreos/etcd/etcdserver/api/v3rpc",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "97dKPtzTjp2pro7iguggHb4Rsu8=",
+			"path": "github.com/coreos/etcd/etcdserver/api/v3rpc/rpctypes",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "IPFUXSz99nVomYh19IxDrioDfF8=",
+			"path": "github.com/coreos/etcd/etcdserver/auth",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "XW8YSuK1Whs2sJxjJ+P95b0bzKw=",
+			"path": "github.com/coreos/etcd/etcdserver/etcdhttp",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "7/LETlcCrlEEjLPxsygVrh+RsDw=",
+			"path": "github.com/coreos/etcd/etcdserver/etcdhttp/httptypes",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "0xvK+M71JyGKMob5zGb9EnY1cG0=",
+			"path": "github.com/coreos/etcd/etcdserver/etcdserverpb",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "twEZuo+YCbnl1OjLSroDPdOGNsQ=",
+			"path": "github.com/coreos/etcd/etcdserver/stats",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "a+yBKl08F/LTtL6FUVZbaw5MK7o=",
+			"path": "github.com/coreos/etcd/lease",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "hnIuqYiWSiVwgU59jmnG6TuwEgA=",
+			"path": "github.com/coreos/etcd/lease/leasehttp",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "UUssaGJZ1sN+w3plvIbRRJg+1Rs=",
+			"path": "github.com/coreos/etcd/lease/leasepb",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "wJlzQs+ehXlvLMh1bBHi2pdlXDQ=",
+			"path": "github.com/coreos/etcd/pkg/adt",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "0iFOFNpZ8hmSPW16MLWWm334Y/A=",
+			"path": "github.com/coreos/etcd/pkg/contention",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "Jv6pGzZDvXNTeL+W2uMHdhqgO5M=",
+			"path": "github.com/coreos/etcd/pkg/cors",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "1JFHG5teOXPBNsJ8NCdIp+NiStg=",
+			"path": "github.com/coreos/etcd/pkg/crc",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "HHFYdxdWIhwfji+TkmQvT18AeFE=",
+			"path": "github.com/coreos/etcd/pkg/fileutil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "qXMAuxy287aKJsHBgHQcYBdXfPw=",
+			"path": "github.com/coreos/etcd/pkg/flags",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "g7id0C6l0ywX/yekrITUBjTkIEA=",
+			"path": "github.com/coreos/etcd/pkg/httputil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "cR0W4G2hXM0qwpRs3mMKC/Z2yxE=",
+			"path": "github.com/coreos/etcd/pkg/idutil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "ae/awVWHxUHyu4WNa8YuE4CEbf0=",
+			"path": "github.com/coreos/etcd/pkg/ioutil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "aZ9Yc7cLDWqSd8//jj8SHsvWWV8=",
+			"path": "github.com/coreos/etcd/pkg/logutil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "0aj62OmEahIDMgAQw5b8y52Z1x4=",
+			"path": "github.com/coreos/etcd/pkg/netutil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "bTPBZkfId01pQPIDpoHZ5Kppu9s=",
+			"path": "github.com/coreos/etcd/pkg/osutil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "mKIXx1kDwmVmdIpZ3pJtRBuUKso=",
+			"path": "github.com/coreos/etcd/pkg/pathutil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "/hd5pBpHySp9WSqiJZBxRx9dBlk=",
+			"path": "github.com/coreos/etcd/pkg/pbutil",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "TQorUPrvj+inpdXQMse1rpL+O4c=",
+			"path": "github.com/coreos/etcd/pkg/runtime",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "aOKkeU1jAVSRfNia6byHSJHS0gU=",
+			"path": "github.com/coreos/etcd/pkg/schedule",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "EpIRW49SB4sVHOu+dmNACuPULGM=",
+			"path": "github.com/coreos/etcd/pkg/transport",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "sWFTfWCr1bOglNmNA7WxlEgXKv0=",
+			"path": "github.com/coreos/etcd/pkg/types",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "m7UwrNqKLZEq4BazFqiv8D4ukrI=",
+			"path": "github.com/coreos/etcd/pkg/wait",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "XmdQgwaUNXVx/QrDBdS7oBLtY4Y=",
+			"path": "github.com/coreos/etcd/proxy",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "oDKIwnPxSeb1Wmdi2Bn9TjrLzg8=",
+			"path": "github.com/coreos/etcd/raft",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "3PJmEh+DhfaRSlZx/urtd7iSCI4=",
+			"path": "github.com/coreos/etcd/raft/raftpb",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "gGdGO3yIBiTwAhm83WFxYuMjdow=",
+			"path": "github.com/coreos/etcd/rafthttp",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "KL4xOUzUO958R9FxMAOgzTSEOjg=",
+			"path": "github.com/coreos/etcd/snap",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "BTMwq0hI8HxQo1FkiejQnlw5TYk=",
+			"path": "github.com/coreos/etcd/snap/snappb",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "AQ1uulMMWZ5R2HWGShZC/BDoRig=",
+			"path": "github.com/coreos/etcd/storage",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "r2tEw8k5k4CQNMJYgPJsOvGzAAM=",
+			"path": "github.com/coreos/etcd/storage/backend",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "2XejtJ4mfiBLfhU9GCDOcrxDnPU=",
+			"path": "github.com/coreos/etcd/storage/storagepb",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "fJwde0SoW74/2wnFXfv6SSLaCjI=",
+			"path": "github.com/coreos/etcd/store",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "a0m2du0mffGyUIHPL/MniyX5ncc=",
+			"path": "github.com/coreos/etcd/version",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "gGz02HvXsdRU3Sq/jzcujUqdxEg=",
+			"path": "github.com/coreos/etcd/wal",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "c3hEtTgCrxQTC+KlLAUxFt9hZx8=",
+			"path": "github.com/coreos/etcd/wal/walpb",
+			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
+			"revisionTime": "2016-04-21T18:26:37Z",
+			"version": "=v2.3.2",
+			"versionExact": "v2.3.2"
+		},
+		{
+			"checksumSHA1": "Hc7LMQrHR71kkSsd/P/SBdiC258=",
+			"path": "github.com/petar/GoLLRB/llrb",
+			"revision": "53be0d36a84c2a886ca057d34b6aa4468df9ccb4",
+			"revisionTime": "2013-04-27T21:51:48Z"
+		},
+		{
+			"checksumSHA1": "9jjO5GjLa0XF/nfWihF02RoH4qc=",
+			"path": "golang.org/x/net/context",
+			"revision": "4d38db76854b199960801a1734443fd02870d7e1",
+			"revisionTime": "2016-07-20T03:23:22Z"
+		}
+	],
+	"rootPath": "github.com/maxmanuylov/jongleur"
+}
