@@ -5,9 +5,9 @@ import (
     "github.com/coreos/etcd/discovery"
     "github.com/coreos/etcd/etcdserver"
     "github.com/coreos/etcd/pkg/types"
+    "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
     "github.com/maxmanuylov/jongleur/jongleur"
     "github.com/maxmanuylov/jongleur/util"
-    "golang.org/x/net/context"
     "net/http"
     "net/url"
 )

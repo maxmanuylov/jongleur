@@ -3,10 +3,6 @@
 	"ignore": "test",
 	"package": [
 		{
-			"path": "context",
-			"revision": ""
-		},
-		{
 			"checksumSHA1": "C8Ves4/b1PIHL6epPCLE8MQt4Kw=",
 			"path": "github.com/coreos/etcd",
 			"revision": "ce63f107382080fda29ed124249b16bfea224dc0",
@@ -699,12 +695,6 @@
 			"path": "github.com/petar/GoLLRB/llrb",
 			"revision": "53be0d36a84c2a886ca057d34b6aa4468df9ccb4",
 			"revisionTime": "2013-04-27T21:51:48Z"
-		},
-		{
-			"checksumSHA1": "9jjO5GjLa0XF/nfWihF02RoH4qc=",
-			"path": "golang.org/x/net/context",
-			"revision": "4d38db76854b199960801a1734443fd02870d7e1",
-			"revisionTime": "2016-07-20T03:23:22Z"
 		}
 	],
 	"rootPath": "github.com/maxmanuylov/jongleur"

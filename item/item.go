@@ -4,8 +4,8 @@ import (
     "errors"
     "fmt"
     etcd "github.com/coreos/etcd/client"
+    "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
     "github.com/maxmanuylov/jongleur/util"
-    "golang.org/x/net/context"
     "log"
     "net"
     "net/http"
@@ -103,15 +103,15 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
     }
 
     return &runtimeData{
-        periodDuration,
-        logger,
-        &http.Client{
+        period: periodDuration,
+        logger: logger,
+        httpClient: &http.Client{
             Timeout: semiPeriodDuration,
         },
-        config.Health.Value,
-        etcdClient,
-        fmt.Sprintf("%s/%s", util.EtcdItemsKey(config.Type), config.Host),
-        periodDuration * time.Duration(config.Tolerance) + semiPeriodDuration,
+        healthUrl: config.Health.Value,
+        etcdClient: etcdClient,
+        etcdKey: fmt.Sprintf("%s/%s", util.EtcdItemsKey(config.Type), config.Host),
+        ttl: periodDuration * time.Duration(config.Tolerance) + semiPeriodDuration,
     }, nil
 }
 

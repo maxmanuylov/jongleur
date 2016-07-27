@@ -3,9 +3,9 @@ package regular
 import (
     "errors"
     etcd "github.com/coreos/etcd/client"
+    "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
     "github.com/maxmanuylov/jongleur/jongleur"
     "github.com/maxmanuylov/jongleur/util"
-    "golang.org/x/net/context"
     "strconv"
     "strings"
 )
