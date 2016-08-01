@@ -7,7 +7,7 @@ import (
     "github.com/maxmanuylov/jongleur/jongleur"
     "github.com/maxmanuylov/jongleur/jongleur/etcd"
     "github.com/maxmanuylov/jongleur/jongleur/regular"
-    "github.com/maxmanuylov/jongleur/util"
+    "github.com/maxmanuylov/jongleur/utils"
     "log"
     "os"
 )
@@ -140,7 +140,7 @@ func printCommonUsageAndExit() {
 func printErrorAndExit(err error, name string, flagSet *flag.FlagSet) {
     fmt.Fprintln(os.Stderr, err.Error())
 
-    if _, isUsageError := err.(util.UsageError); isUsageError {
+    if _, isUsageError := err.(utils.UsageError); isUsageError {
         fmt.Fprintln(os.Stderr, "")
         usageFunc(name, flagSet)()
         os.Exit(2)

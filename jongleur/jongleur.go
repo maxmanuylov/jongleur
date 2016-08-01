@@ -3,8 +3,9 @@ package jongleur
 import (
     "errors"
     etcd "github.com/coreos/etcd/client"
-    "github.com/maxmanuylov/jongleur/util"
-    "github.com/maxmanuylov/jongleur/util/cycle"
+    "github.com/maxmanuylov/jongleur/utils"
+    "github.com/maxmanuylov/jongleur/utils/cycle"
+    "github.com/maxmanuylov/utils/application"
     "log"
     "net"
     "time"
@@ -21,7 +22,7 @@ type Config struct {
 }
 
 func Run(config *Config, logger *log.Logger) error {
-    if err := util.Check(config); err != nil {
+    if err := utils.Check(config); err != nil {
         return err
     }
 
@@ -51,7 +52,7 @@ func Run(config *Config, logger *log.Logger) error {
     go runProxy(tcpListener, data)
     data.logger.Printf("Listening for TCP connections on port %v\n", config.Port)
 
-    util.WaitForTermination()
+    application.WaitForTermination()
 
     return nil
 }

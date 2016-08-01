@@ -1,12 +1,9 @@
-package util
+package utils
 
 import (
     "fmt"
-    "os"
-    "os/signal"
     "reflect"
     "strings"
-    "syscall"
 )
 
 func Check(objectPointer interface{}) error {
@@ -36,12 +33,6 @@ type UsageError struct {
 
 func (err UsageError) Error() string {
     return err.message
-}
-
-func WaitForTermination() {
-    signalsChannel := make(chan os.Signal, 1)
-    signal.Notify(signalsChannel, syscall.SIGINT, syscall.SIGTERM)
-    <-signalsChannel
 }
 
 func EtcdItemsKey(itemType string) string {

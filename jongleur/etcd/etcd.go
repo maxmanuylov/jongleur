@@ -7,7 +7,7 @@ import (
     "github.com/coreos/etcd/pkg/types"
     "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
     "github.com/maxmanuylov/jongleur/jongleur"
-    "github.com/maxmanuylov/jongleur/util"
+    "github.com/maxmanuylov/jongleur/utils"
     "net/http"
     "net/url"
 )
@@ -20,7 +20,7 @@ type Config struct {
 }
 
 func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
-    if err := util.Check(config); err != nil {
+    if err := utils.Check(config); err != nil {
         return nil, err
     }
 

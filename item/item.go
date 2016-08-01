@@ -5,7 +5,8 @@ import (
     "fmt"
     etcd "github.com/coreos/etcd/client"
     "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
-    "github.com/maxmanuylov/jongleur/util"
+    "github.com/maxmanuylov/jongleur/utils"
+    "github.com/maxmanuylov/utils/application"
     "log"
     "net"
     "net/http"
@@ -28,7 +29,7 @@ type Config struct {
 }
 
 func Run(config *Config, logger *log.Logger) error {
-    if err := util.Check(config); err != nil {
+    if err := utils.Check(config); err != nil {
         return err
     }
 
@@ -46,7 +47,7 @@ func Run(config *Config, logger *log.Logger) error {
         }
     }()
 
-    util.WaitForTermination()
+    application.WaitForTermination()
 
     return nil
 }
@@ -110,7 +111,7 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
         },
         healthUrl: config.Health.Value,
         etcdClient: etcdClient,
-        etcdKey: fmt.Sprintf("%s/%s", util.EtcdItemsKey(config.Type), config.Host),
+        etcdKey: fmt.Sprintf("%s/%s", utils.EtcdItemsKey(config.Type), config.Host),
         ttl: periodDuration * time.Duration(config.Tolerance) + semiPeriodDuration,
     }, nil
 }
