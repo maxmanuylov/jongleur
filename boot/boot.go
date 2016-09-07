@@ -68,6 +68,10 @@ func runJongleur(args []string) {
     flagSet := jongleurFlagSet(config)
     flagSet.Parse(args)
 
+    if config.RemotePort == 0 {
+        config.RemotePort = config.Port
+    }
+
     jongleurConfig, err := config.ToJongleurConfig()
     if err != nil {
         printErrorAndExit(err, jongleurName, flagSet)
@@ -114,6 +118,7 @@ func jongleurFlagSet(config *regular.Config) *flag.FlagSet {
     flagSet.StringVar(&config.Items, "items", "", "type of the service to proxy (required)")
     flagSet.BoolVar(&config.Local, "local", false, "flag to restrict listen interface to \"127.0.0.1\"; default is \"0.0.0.0\"")
     flagSet.IntVar(&config.Port, "port", 0, "local port to listen; interface to listen is always \"0.0.0.0\" (required)")
+    flagSet.IntVar(&config.RemotePort, "remote-port", 0, "remote port to transfer requests to in case of using \"*\" for item ports; by default is equal to local port")
     flagSet.IntVar(&config.Period, "period", 10, "service instances list synchronization period in seconds")
     flagSet.StringVar(&config.Etcd, "etcd", "http://127.0.0.1:2379", "etcd URL")
 

@@ -11,11 +11,12 @@ import (
 )
 
 type Config struct {
-    Items  string
-    Local  bool
-    Port   int
-    Period int
-    Etcd   string
+    Items      string
+    Local      bool
+    Port       int
+    RemotePort int
+    Period     int
+    Etcd       string
 }
 
 func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
@@ -28,7 +29,7 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
     }
 
     etcdKey := utils.EtcdItemsKey(config.Items)
-    portStr := strconv.Itoa(config.Port)
+    remotePortStr := strconv.Itoa(config.RemotePort)
 
     return &jongleur.Config{
         Local: config.Local,
@@ -52,7 +53,7 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
             if response.Node.Nodes != nil {
                 for _, node := range response.Node.Nodes {
                     if !node.Dir {
-                        newItems = append(newItems, strings.Replace(simpleKey(node.Key), "*", portStr, -1))
+                        newItems = append(newItems, strings.Replace(simpleKey(node.Key), "*", remotePortStr, -1))
                     }
                 }
             }
