@@ -103,6 +103,7 @@ func etcdFlagSet(config *etcd.Config) *flag.FlagSet {
     flagSet.Usage = usageFunc(jongleurEtcdName, flagSet)
 
     flagSet.BoolVar(&config.Local, "local", false, "flag to restrict listen interface to \"127.0.0.1\"; default is \"0.0.0.0\"")
+    flagSet.BoolVar(&config.Verbose, "verbose", false, "flag to enable verbose output")
     flagSet.IntVar(&config.Port, "port", 2379, "local port to listen")
     flagSet.IntVar(&config.Period, "period", 10, "etcd members list synchronization period in seconds")
     flagSet.StringVar(&config.Discovery, "discovery", "", "etcd discovery URL (required)")
@@ -117,6 +118,7 @@ func jongleurFlagSet(config *regular.Config) *flag.FlagSet {
 
     flagSet.StringVar(&config.Items, "items", "", "type of the service to proxy (required)")
     flagSet.BoolVar(&config.Local, "local", false, "flag to restrict listen interface to \"127.0.0.1\"; default is \"0.0.0.0\"")
+    flagSet.BoolVar(&config.Verbose, "verbose", false, "flag to enable verbose output")
     flagSet.IntVar(&config.Port, "port", 0, "local port to listen; interface to listen is always \"0.0.0.0\" (required)")
     flagSet.IntVar(&config.RemotePort, "remote-port", 0, "remote port to transfer requests to in case of using \"*\" for item ports; by default is equal to local port")
     flagSet.IntVar(&config.Period, "period", 10, "service instances list synchronization period in seconds")

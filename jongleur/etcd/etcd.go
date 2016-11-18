@@ -14,6 +14,7 @@ import (
 
 type Config struct {
     Local     bool
+    Verbose   bool
     Port      int
     Period    int
     Discovery string
@@ -41,6 +42,7 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
 
     return &jongleur.Config{
         Local: config.Local,
+        Verbose: config.Verbose,
         Port: config.Port,
         Period: config.Period,
         Etcd: etcdCluster.ClientURLs(),

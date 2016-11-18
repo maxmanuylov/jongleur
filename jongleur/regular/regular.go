@@ -13,6 +13,7 @@ import (
 type Config struct {
     Items      string
     Local      bool
+    Verbose    bool
     Port       int
     RemotePort int
     Period     int
@@ -33,6 +34,7 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
 
     return &jongleur.Config{
         Local: config.Local,
+        Verbose: config.Verbose,
         Port: config.Port,
         Period: config.Period,
         Etcd: []string{config.Etcd},

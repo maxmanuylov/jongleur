@@ -1,6 +1,7 @@
 package cycle
 
 import (
+    "log"
     "sync"
 )
 
@@ -9,12 +10,13 @@ type MutableCycle struct {
 
     cycle *Cycle
     index map[string]bool
+    logger *log.Logger
 
     lock  *sync.RWMutex
 }
 
-func NewMutableCycle(c chan<- string) *MutableCycle {
-    return &MutableCycle{c, nil, nil, &sync.RWMutex{}}
+func NewMutableCycle(c chan<- string, logger *log.Logger) *MutableCycle {
+    return &MutableCycle{c: c, cycle: nil, index: nil, logger: logger, lock: &sync.RWMutex{}}
 }
 
 func (mcycle *MutableCycle) SyncItems(newItems []string) {
@@ -45,6 +47,11 @@ func (mcycle *MutableCycle) setNewItemsIfNeeded(newItems []string) {
         return
     }
 
+    logger := mcycle.logger
+    if logger != nil {
+        mcycle.logger.Printf("Updating endpoints: %v\n", newItems)
+    }
+
     mcycle.doStop()
 
     if len(newItems) != 0 {
@@ -55,6 +62,10 @@ func (mcycle *MutableCycle) setNewItemsIfNeeded(newItems []string) {
 
         mcycle.cycle = NewCycle(newItems)
         mcycle.cycle.Start(mcycle.c)
+    }
+
+    if logger != nil {
+        mcycle.logger.Println("Endpoints are updated")
     }
 }
 

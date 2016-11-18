@@ -15,6 +15,7 @@ type ItemsLoader func (etcdClient etcd.Client) ([]string, error)
 
 type Config struct {
     Local       bool
+    Verbose     bool
     Port        int
     Period      int
     Etcd        []string
@@ -64,6 +65,7 @@ type runtimeData struct {
     loadItems  ItemsLoader
     mcycle     *cycle.MutableCycle
     hosts      <-chan string
+    verbose    bool
 }
 
 func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error) {
@@ -94,8 +96,9 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
         logger: logger,
         etcdClient: etcdClient,
         loadItems: config.ItemsLoader,
-        mcycle: cycle.NewMutableCycle(hosts),
+        mcycle: cycle.NewMutableCycle(hosts, logger),
         hosts: hosts,
+        verbose: config.Verbose,
     }, nil
 }
 
