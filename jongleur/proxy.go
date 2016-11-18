@@ -50,20 +50,20 @@ func handleConnection(clientConnection *net.TCPConn, data *runtimeData, n int64)
         }
 
         if data.verbose {
-            data.logger.Println("[%d] Connected successfully, transferring data...", n)
+            data.logger.Printf("[%d] Connected successfully, transferring data...\n", n)
         }
 
         link(clientConnection, serviceConnection)
 
         if data.verbose {
-            data.logger.Println("[%d] Data is successfully transferred", n)
+            data.logger.Printf("[%d] Data is successfully transferred\n", n)
         }
 
         return
     }
 
     if data.verbose {
-        data.logger.Println("[%d] All connection attempts failed", n)
+        data.logger.Printf("[%d] All connection attempts failed\n", n)
     }
 
     clientConnection.Write([]byte(serviceUnavailable))
