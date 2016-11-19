@@ -43,7 +43,7 @@ func handleConnection(clientConnection *net.TCPConn, data *runtimeData, n int64)
             data.logger.Printf("[%d] Attempt #%d. Endpoint: %s\n", n, i + 1, host)
         }
 
-        serviceConnection, err := net.DialTimeout("tcp", host, 2 * time.Second)
+        serviceConnection, err := dialTCP(host, 2 * time.Second)
         if err != nil {
             data.logger.Printf("[%d] Connection to endpoint \"%s\" failed: %s\n", n, host, err.Error())
             continue
@@ -78,7 +78,22 @@ func nextHost(data *runtimeData) (string, error) {
     }
 }
 
-func link(clientConnection *net.TCPConn, serviceConnection net.Conn) {
+func dialTCP(host string, timeout time.Duration) (*net.TCPConn, error) {
+    conn, err := net.DialTimeout("tcp", host, timeout)
+    if err != nil {
+        return nil, err
+    }
+
+    tcpConn, ok := conn.(*net.TCPConn)
+    if !ok {
+        defer conn.Close()
+        return nil, errors.New("Not a TCP connection")
+    }
+
+    return tcpConn, nil
+}
+
+func link(clientConnection *net.TCPConn, serviceConnection *net.TCPConn) {
     defer serviceConnection.Close()
 
     done := make(chan bool, 2)
@@ -90,10 +105,12 @@ func link(clientConnection *net.TCPConn, serviceConnection net.Conn) {
     <-done
 }
 
-func copyStream(from io.Reader, to io.Writer, done chan<- bool) {
+func copyStream(from io.Reader, to *net.TCPConn, done chan<- bool) {
     defer func() {
         done <- true
     }()
+
+    defer to.CloseWrite()
 
     io.Copy(to, from)
 }
