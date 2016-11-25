@@ -53,7 +53,7 @@ func handleConnection(clientConnection *net.TCPConn, data *runtimeData, n int64)
             data.logger.Printf("[%d] Connected successfully, transferring data...\n", n)
         }
 
-        link(clientConnection, serviceConnection)
+        link(clientConnection, serviceConnection, data)
 
         if data.verbose {
             data.logger.Printf("[%d] Data is successfully transferred\n", n)
@@ -93,24 +93,24 @@ func dialTCP(host string, timeout time.Duration) (*net.TCPConn, error) {
     return tcpConn, nil
 }
 
-func link(clientConnection *net.TCPConn, serviceConnection *net.TCPConn) {
+func link(clientConnection *net.TCPConn, serviceConnection *net.TCPConn, data *runtimeData) {
     defer serviceConnection.Close()
 
     done := make(chan bool, 2)
 
-    go copyStream(clientConnection, serviceConnection, done)
-    go copyStream(serviceConnection, clientConnection, done)
+    go copyStream(clientConnection, serviceConnection, data.requestPatcher, done)
+    go copyStream(serviceConnection, clientConnection, data.responsePatcher, done)
 
     <-done
     <-done
 }
 
-func copyStream(from io.Reader, to *net.TCPConn, done chan<- bool) {
+func copyStream(from io.Reader, to *net.TCPConn, patcher Patcher, done chan<- bool) {
     defer func() {
         done <- true
     }()
 
     defer to.CloseWrite()
 
-    io.Copy(to, from)
+    io.Copy(patcher(to), from)
 }

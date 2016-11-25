@@ -6,6 +6,7 @@ import (
     "github.com/maxmanuylov/jongleur/utils"
     "github.com/maxmanuylov/jongleur/utils/cycle"
     "github.com/maxmanuylov/utils/application"
+    "io"
     "log"
     "net"
     "time"
@@ -13,13 +14,21 @@ import (
 
 type ItemsLoader func (etcdClient etcd.Client) ([]string, error)
 
+type Patcher func(io.Writer) io.Writer
+
+var IDENTICAL_PATCHER Patcher = func(originalWriter io.Writer) io.Writer {
+    return originalWriter
+}
+
 type Config struct {
-    Local       bool
-    Verbose     bool
-    Port        int
-    Period      int
-    Etcd        []string
-    ItemsLoader ItemsLoader
+    Local           bool
+    Verbose         bool
+    Port            int
+    Period          int
+    Etcd            []string
+    ItemsLoader     ItemsLoader
+    RequestPatcher  Patcher
+    ResponsePatcher Patcher
 }
 
 func Run(config *Config, logger *log.Logger) error {
@@ -59,13 +68,15 @@ func Run(config *Config, logger *log.Logger) error {
 }
 
 type runtimeData struct {
-    period     time.Duration
-    logger     *log.Logger
-    etcdClient etcd.Client
-    loadItems  ItemsLoader
-    mcycle     *cycle.MutableCycle
-    hosts      <-chan string
-    verbose    bool
+    period          time.Duration
+    logger          *log.Logger
+    etcdClient      etcd.Client
+    loadItems       ItemsLoader
+    mcycle          *cycle.MutableCycle
+    hosts           <-chan string
+    requestPatcher  Patcher
+    responsePatcher Patcher
+    verbose         bool
 }
 
 func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error) {
@@ -98,6 +109,8 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
         loadItems: config.ItemsLoader,
         mcycle: cycle.NewMutableCycle(hosts, logger),
         hosts: hosts,
+        requestPatcher: config.RequestPatcher,
+        responsePatcher: config.ResponsePatcher,
         verbose: config.Verbose,
     }, nil
 }

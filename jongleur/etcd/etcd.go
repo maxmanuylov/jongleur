@@ -62,5 +62,7 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
 
             return newItems, nil
         },
+        RequestPatcher: jongleur.IDENTICAL_PATCHER,
+        ResponsePatcher: jongleur.IDENTICAL_PATCHER,
     }, nil
 }

@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/maxmanuylov/jongleur/item"
     "github.com/maxmanuylov/jongleur/jongleur"
+    "github.com/maxmanuylov/jongleur/jongleur/ceph"
     "github.com/maxmanuylov/jongleur/jongleur/etcd"
     "github.com/maxmanuylov/jongleur/jongleur/regular"
     "github.com/maxmanuylov/jongleur/utils"
@@ -16,8 +17,10 @@ const (
     jongleurName = "jongleur"
     itemName = "item"
     etcdName = "etcd"
+    cephName = "ceph"
     jongleurItemName = jongleurName + " " + itemName
     jongleurEtcdName = jongleurName + " " + etcdName
+    jongleurCephName = jongleurName + " " + cephName
 )
 
 func Run() {
@@ -30,6 +33,8 @@ func Run() {
         runItem(os.Args[2:])
     case etcdName:
         runEtcdProxy(os.Args[2:])
+    case cephName:
+        runCephMonProxy(os.Args[2:])
     default:
         runJongleur(os.Args[1:])
     }
@@ -59,6 +64,26 @@ func runEtcdProxy(args []string) {
 
     if err := jongleur.Run(jongleurConfig, newLogger()); err != nil {
         printErrorAndExit(err, jongleurEtcdName, flagSet)
+    }
+}
+
+func runCephMonProxy(args []string) {
+    config := &ceph.Config{}
+
+    flagSet := cephFlagSet(config)
+    flagSet.Parse(args)
+
+    if config.RemotePort == 0 {
+        config.RemotePort = config.Port
+    }
+
+    jongleurConfig, err := config.ToJongleurConfig()
+    if err != nil {
+        printErrorAndExit(err, jongleurCephName, flagSet)
+    }
+
+    if err := jongleur.Run(jongleurConfig, newLogger()); err != nil {
+        printErrorAndExit(err, jongleurCephName, flagSet)
     }
 }
 
@@ -111,11 +136,28 @@ func etcdFlagSet(config *etcd.Config) *flag.FlagSet {
     return flagSet
 }
 
+func cephFlagSet(config *ceph.Config) *flag.FlagSet {
+    flagSet := flag.NewFlagSet(jongleurCephName, flag.ExitOnError)
+
+    flagSet.Usage = usageFunc(jongleurCephName, flagSet)
+
+    appendJongleurFlags(&config.Config, flagSet)
+    flagSet.StringVar(&config.MonIP, "mon-ip", "", "IP address to set for Ceph monitor (required)")
+
+    return flagSet
+}
+
 func jongleurFlagSet(config *regular.Config) *flag.FlagSet {
     flagSet := flag.NewFlagSet(jongleurName, flag.ExitOnError)
 
     flagSet.Usage = usageFunc(jongleurName, flagSet)
 
+    appendJongleurFlags(config, flagSet)
+
+    return flagSet
+}
+
+func appendJongleurFlags(config *regular.Config, flagSet *flag.FlagSet) {
     flagSet.StringVar(&config.Items, "items", "", "type of the service to proxy (required)")
     flagSet.BoolVar(&config.Local, "local", false, "flag to restrict listen interface to \"127.0.0.1\"; default is \"0.0.0.0\"")
     flagSet.BoolVar(&config.Verbose, "verbose", false, "flag to enable verbose output")
@@ -123,8 +165,6 @@ func jongleurFlagSet(config *regular.Config) *flag.FlagSet {
     flagSet.IntVar(&config.RemotePort, "remote-port", 0, "remote port to transfer requests to in case of using \"*\" for item ports; by default is equal to local port")
     flagSet.IntVar(&config.Period, "period", 10, "service instances list synchronization period in seconds")
     flagSet.StringVar(&config.Etcd, "etcd", "http://127.0.0.1:2379", "etcd URL")
-
-    return flagSet
 }
 
 func printCommonUsageAndExit() {
