@@ -15,10 +15,10 @@ One need just two simple steps to get jongleur ready (the order of the steps doe
 2. Start "jongleur" daemon to load-balance the service instances:
    
    ```sh
-   jongleur --items=my-service --port=1234 [--etcd=http://127.0.0.1:2379]
+   jongleur --items=my-service --listen=:1234 [--etcd=http://127.0.0.1:2379]
    ```
    
-   This daemon runs a proxy on `http://0.0.0.0:<port>` that load-balances all the requests among the service instances.
+   This daemon runs a proxy on `tcp://0.0.0.0:1234` that load-balances all the requests among the service instances.
    
    It makes sense to have jongleur proxy locally on every machine from which you want to access your service rather than having just one centralized proxy.
    Run `jongleur --help` for more detailed options description.
