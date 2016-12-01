@@ -11,10 +11,9 @@ import (
 )
 
 type Config struct {
-    Items      string
-    Local      bool
     Verbose    bool
-    Port       int
+    Items      string
+    Listen     string
     RemotePort int
     Period     int
     Etcd       string
@@ -30,12 +29,11 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
     }
 
     etcdKey := utils.EtcdItemsKey(config.Items)
-    remotePortStr := strconv.Itoa(config.RemotePort)
+    remotePortStr := config.getRemotePortStr()
 
     return &jongleur.Config{
-        Local: config.Local,
         Verbose: config.Verbose,
-        Port: config.Port,
+        Listen: config.Listen,
         Period: config.Period,
         Etcd: []string{config.Etcd},
         ItemsLoader: func (etcdClient etcd.Client) ([]string, error) {
@@ -55,7 +53,15 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
             if response.Node.Nodes != nil {
                 for _, node := range response.Node.Nodes {
                     if !node.Dir {
-                        newItems = append(newItems, strings.Replace(simpleKey(node.Key), "*", remotePortStr, -1))
+                        item := simpleKey(node.Key)
+
+                        if remotePortStr != "" {
+                            item = strings.Replace(item, "*", remotePortStr, -1)
+                        }
+
+                        if !strings.Contains(item, "*") {
+                            newItems = append(newItems, item)
+                        }
                     }
                 }
             }
@@ -65,6 +71,14 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
         RequestPatcher: jongleur.IDENTICAL_PATCHER,
         ResponsePatcher: jongleur.IDENTICAL_PATCHER,
     }, nil
+}
+
+func (config *Config) getRemotePortStr() string {
+    if config.RemotePort == -1 {
+        return ""
+    } else {
+        return strconv.Itoa(config.RemotePort)
+    }
 }
 
 func simpleKey(key string) string {

@@ -73,10 +73,6 @@ func runCephMonProxy(args []string) {
     flagSet := cephFlagSet(config)
     flagSet.Parse(args)
 
-    if config.RemotePort == 0 {
-        config.RemotePort = config.Port
-    }
-
     jongleurConfig, err := config.ToJongleurConfig()
     if err != nil {
         printErrorAndExit(err, jongleurCephName, flagSet)
@@ -92,10 +88,6 @@ func runJongleur(args []string) {
 
     flagSet := jongleurFlagSet(config)
     flagSet.Parse(args)
-
-    if config.RemotePort == 0 {
-        config.RemotePort = config.Port
-    }
 
     jongleurConfig, err := config.ToJongleurConfig()
     if err != nil {
@@ -127,10 +119,9 @@ func etcdFlagSet(config *etcd.Config) *flag.FlagSet {
 
     flagSet.Usage = usageFunc(jongleurEtcdName, flagSet)
 
-    flagSet.BoolVar(&config.Local, "local", false, "flag to restrict listen interface to \"127.0.0.1\"; default is \"0.0.0.0\"")
     flagSet.BoolVar(&config.Verbose, "verbose", false, "flag to enable verbose output")
-    flagSet.IntVar(&config.Port, "port", 2379, "local port to listen")
-    flagSet.IntVar(&config.Period, "period", 10, "etcd members list synchronization period in seconds")
+    flagSet.StringVar(&config.Listen, "listen", "", "listen address in form \"[<network>@]address\"; network can be \"tcp\" or \"unix\"; default network is \"tcp\" (required)")
+    flagSet.IntVar(&config.Period, "period", 10, "service instances list synchronization period in seconds")
     flagSet.StringVar(&config.Discovery, "discovery", "", "etcd discovery URL (required)")
 
     return flagSet
@@ -142,7 +133,6 @@ func cephFlagSet(config *ceph.Config) *flag.FlagSet {
     flagSet.Usage = usageFunc(jongleurCephName, flagSet)
 
     appendJongleurFlags(&config.Config, flagSet)
-    flagSet.StringVar(&config.MonIP, "mon-ip", "", "IP address to set for Ceph monitor (required)")
 
     return flagSet
 }
@@ -158,11 +148,10 @@ func jongleurFlagSet(config *regular.Config) *flag.FlagSet {
 }
 
 func appendJongleurFlags(config *regular.Config, flagSet *flag.FlagSet) {
-    flagSet.StringVar(&config.Items, "items", "", "type of the service to proxy (required)")
-    flagSet.BoolVar(&config.Local, "local", false, "flag to restrict listen interface to \"127.0.0.1\"; default is \"0.0.0.0\"")
     flagSet.BoolVar(&config.Verbose, "verbose", false, "flag to enable verbose output")
-    flagSet.IntVar(&config.Port, "port", 0, "local port to listen; interface to listen is always \"0.0.0.0\" (required)")
-    flagSet.IntVar(&config.RemotePort, "remote-port", 0, "remote port to transfer requests to in case of using \"*\" for item ports; by default is equal to local port")
+    flagSet.StringVar(&config.Items, "items", "", "type of the service to proxy (required)")
+    flagSet.StringVar(&config.Listen, "listen", "", "listen address in form \"[<network>@]address\"; network can be \"tcp\" or \"unix\"; default network is \"tcp\" (required)")
+    flagSet.IntVar(&config.RemotePort, "remote-port", -1, "remote port to transfer requests to in case of using \"*\" for item ports; by default items with \"*\" ports are ignored")
     flagSet.IntVar(&config.Period, "period", 10, "service instances list synchronization period in seconds")
     flagSet.StringVar(&config.Etcd, "etcd", "http://127.0.0.1:2379", "etcd URL")
 }

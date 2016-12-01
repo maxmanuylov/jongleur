@@ -3,6 +3,7 @@ package utils
 import (
     "fmt"
     "reflect"
+    "strconv"
     "strings"
 )
 
@@ -25,6 +26,19 @@ func isZero(value reflect.Value) bool {
         return false
     }
     return reflect.DeepEqual(value.Interface(), reflect.Zero(valueType).Interface())
+}
+
+func ParsePort(portStr string) (int, error) {
+    port, err := strconv.Atoi(portStr)
+    if err != nil {
+        return 0, fmt.Errorf("Invalid port value \"%s\": %v", portStr, err)
+    }
+
+    if port < 0 || port > 0xFFFF {
+        return 0, fmt.Errorf("Port value out of range: %d", port)
+    }
+
+    return port, nil
 }
 
 type UsageError struct {

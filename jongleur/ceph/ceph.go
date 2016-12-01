@@ -4,14 +4,14 @@ import (
     "fmt"
     "github.com/maxmanuylov/jongleur/jongleur"
     "github.com/maxmanuylov/jongleur/jongleur/regular"
+    "github.com/maxmanuylov/jongleur/utils"
     "io"
     "net"
+    "strings"
 )
 
 type Config struct {
     regular.Config
-
-    MonIP string
 }
 
 func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
@@ -20,15 +20,30 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
         return nil, err
     }
 
-    ip := net.ParseIP(config.MonIP)
+    network, addr := jongleurConfig.SplitNetAddr()
+    if !strings.HasPrefix(network, "tcp") {
+        return nil, fmt.Errorf("TCP address is required for Ceph mode: %s", jongleurConfig.Listen)
+    }
+
+    ipStr, portStr, err := net.SplitHostPort(addr)
+    if err != nil {
+        return nil, fmt.Errorf("Failed to parse TCP address \"%s\": %v", addr, err)
+    }
+
+    ip := net.ParseIP(ipStr)
     if ip == nil {
-        return nil, fmt.Errorf("Failed to parse monitor IP: %s", config.MonIP)
+        return nil, fmt.Errorf("Failed to parse monitor IP: %s", ipStr)
+    }
+
+    port, err := utils.ParsePort(portStr)
+    if err != nil {
+        return nil, fmt.Errorf("Failed to parse TCP port \"%s\": %v", portStr, err)
     }
 
     jongleurConfig.ResponsePatcher = func(originalWriter io.Writer) io.Writer {
         return &bytesPatcher{
             originalWriter: originalWriter,
-            newBytes: append([]byte{byte(config.Port / 256), byte(config.Port % 256)}, ip.To4()...),
+            newBytes: append([]byte{byte(port / 256), byte(port % 256)}, ip.To4()...),
             skip: 19,
         }
     }

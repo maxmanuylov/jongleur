@@ -13,9 +13,8 @@ import (
 )
 
 type Config struct {
-    Local     bool
     Verbose   bool
-    Port      int
+    Listen    string
     Period    int
     Discovery string
 }
@@ -41,9 +40,8 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
     }
 
     return &jongleur.Config{
-        Local: config.Local,
         Verbose: config.Verbose,
-        Port: config.Port,
+        Listen: config.Listen,
         Period: config.Period,
         Etcd: etcdCluster.ClientURLs(),
         ItemsLoader: func (etcdClient _etcd.Client) ([]string, error) {

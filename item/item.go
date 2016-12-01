@@ -10,7 +10,6 @@ import (
     "log"
     "net"
     "net/http"
-    "strconv"
     "strings"
     "time"
 )
@@ -77,13 +76,8 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
     }
 
     if port != "*" {
-        portNum, err := strconv.Atoi(port)
-        if err != nil {
+        if _, err := utils.ParsePort(port); err != nil {
             return nil, err
-        }
-
-        if portNum < 0 || portNum > 0xFFFF {
-            return nil, errors.New("Invalid port value")
         }
     }
 

@@ -7,24 +7,41 @@ import (
     "time"
 )
 
+type WriteCloseableConn interface {
+    net.Conn
+    CloseWrite() error
+}
+
+var _ WriteCloseableConn = (*net.TCPConn)(nil)
+var _ WriteCloseableConn = (*net.UnixConn)(nil)
+
 const serviceUnavailable = "HTTP/1.1 503 Service unavailable\n"
 
-func runProxy(tcpListener *net.TCPListener, data *runtimeData) {
+func runProxy(listener net.Listener, data *runtimeData) {
     var n int64 = 0
     for {
-        tcpConnection, err := tcpListener.AcceptTCP()
+        connection, err := listener.Accept()
         if err != nil {
-            data.logger.Printf("TCP server: %s\n", err.Error())
+            data.logger.Printf("[Server] %s\n", err.Error())
             return
         }
         n++
-        go handleConnection(tcpConnection, data, n)
+        go handleConnection(connection, data, n)
     }
 }
 
-func handleConnection(clientConnection *net.TCPConn, data *runtimeData, n int64) {
+func handleConnection(clientConnection net.Conn, data *runtimeData, n int64) {
     defer clientConnection.Close()
 
+    if conn, ok := clientConnection.(WriteCloseableConn); ok {
+        doHandleConnection(conn, data, n)
+        return
+    }
+
+    data.logger.Printf("Unsupported connection: %+v\n", clientConnection)
+}
+
+func doHandleConnection(clientConnection WriteCloseableConn, data *runtimeData, n int64) {
     if data.verbose {
         data.logger.Printf("[%d] Accepted connection from %+v\n", n, clientConnection.RemoteAddr())
     }
@@ -93,7 +110,7 @@ func dialTCP(host string, timeout time.Duration) (*net.TCPConn, error) {
     return tcpConn, nil
 }
 
-func link(clientConnection *net.TCPConn, serviceConnection *net.TCPConn, data *runtimeData) {
+func link(clientConnection WriteCloseableConn, serviceConnection WriteCloseableConn, data *runtimeData) {
     defer serviceConnection.Close()
 
     done := make(chan bool, 2)
@@ -105,7 +122,7 @@ func link(clientConnection *net.TCPConn, serviceConnection *net.TCPConn, data *r
     <-done
 }
 
-func copyStream(from io.Reader, to *net.TCPConn, patcher Patcher, done chan<- bool) {
+func copyStream(from io.Reader, to WriteCloseableConn, patcher Patcher, done chan<- bool) {
     defer func() {
         done <- true
     }()

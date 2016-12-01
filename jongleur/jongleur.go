@@ -9,6 +9,7 @@ import (
     "io"
     "log"
     "net"
+    "strings"
     "time"
 )
 
@@ -21,9 +22,8 @@ var IDENTICAL_PATCHER Patcher = func(originalWriter io.Writer) io.Writer {
 }
 
 type Config struct {
-    Local           bool
     Verbose         bool
-    Port            int
+    Listen          string // "[<network>@]<addr>"
     Period          int
     Etcd            []string
     ItemsLoader     ItemsLoader
@@ -52,15 +52,15 @@ func Run(config *Config, logger *log.Logger) error {
         }
     }()
 
-    tcpListener, err := net.ListenTCP("tcp", config.getTCPAddr())
+    listener, err := net.Listen(config.SplitNetAddr())
     if err != nil {
         return err
     }
 
-    defer tcpListener.Close()
+    defer listener.Close()
 
-    go runProxy(tcpListener, data)
-    data.logger.Printf("Listening for TCP connections on port %v\n", config.Port)
+    go runProxy(listener, data)
+    data.logger.Printf("Listening for TCP connections on %+v\n", listener.Addr())
 
     application.WaitForTermination()
 
@@ -80,10 +80,6 @@ type runtimeData struct {
 }
 
 func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error) {
-    if config.Port < 0 || config.Port > 0xFFFF {
-        return nil, errors.New("Invalid port value")
-    }
-
     if config.Period <= 0 {
         return nil, errors.New("Period must be positive")
     }
@@ -127,10 +123,11 @@ func syncItems(data *runtimeData) {
     }
 }
 
-func (config *Config) getTCPAddr() (*net.TCPAddr) {
-    if config.Local {
-        return &net.TCPAddr{IP: []byte{127, 0, 0, 1}, Port: config.Port}
+func (config *Config) SplitNetAddr() (string, string) {
+    atPos := strings.Index(config.Listen, "@")
+    if atPos == -1 {
+        return "tcp", config.Listen
     } else {
-        return &net.TCPAddr{Port: config.Port}
+        return config.Listen[:atPos], config.Listen[atPos + 1:]
     }
 }
