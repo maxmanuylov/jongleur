@@ -9,6 +9,8 @@ import (
     "io"
     "log"
     "net"
+    "os"
+    "path/filepath"
     "strings"
     "time"
 )
@@ -52,7 +54,7 @@ func Run(config *Config, logger *log.Logger) error {
         }
     }()
 
-    listener, err := net.Listen(config.SplitNetAddr())
+    listener, err := config.listen()
     if err != nil {
         return err
     }
@@ -130,4 +132,16 @@ func (config *Config) SplitNetAddr() (string, string) {
     } else {
         return config.Listen[:atPos], config.Listen[atPos + 1:]
     }
+}
+
+func (config *Config) listen() (net.Listener, error) {
+    network, addr := config.SplitNetAddr()
+
+    if strings.HasPrefix(network, "unix") {
+        if err := os.MkdirAll(filepath.Dir(addr), 0755); err != nil {
+            return nil, err
+        }
+    }
+
+    return net.Listen(network, addr)
 }
