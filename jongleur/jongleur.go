@@ -47,6 +47,7 @@ func Run(config *Config, logger *log.Logger) error {
     defer syncTicker.Stop()
 
     go func() {
+        syncItems(data)
         for range syncTicker.C {
             syncItems(data)
         }
