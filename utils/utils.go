@@ -48,7 +48,3 @@ type UsageError struct {
 func (err UsageError) Error() string {
     return err.message
 }
-
-func EtcdItemsKey(itemType string) string {
-    return fmt.Sprintf("/jongleur/items/%s", itemType)
-}

@@ -6,6 +6,7 @@ import (
     etcd "github.com/coreos/etcd/client"
     "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
     "github.com/maxmanuylov/jongleur/utils"
+    "github.com/maxmanuylov/jongleur/utils/etcd"
     "github.com/maxmanuylov/utils/application"
     "log"
     "net"
@@ -105,7 +106,7 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
         },
         healthUrl: config.Health.Value,
         etcdClient: etcdClient,
-        etcdKey: fmt.Sprintf("%s/%s", utils.EtcdItemsKey(config.Type), config.Host),
+        etcdKey: fmt.Sprintf("%s/%s", etcd_utils.EtcdItemsKey(config.Type), config.Host),
         ttl: periodDuration * time.Duration(config.Tolerance) + semiPeriodDuration,
     }, nil
 }
@@ -149,9 +150,9 @@ func isItemAlive(data *runtimeData) (bool, error) {
 func refreshItem(data *runtimeData) error {
     keys := etcd.NewKeysAPI(data.etcdClient)
 
-    context := context.Background()
+    backgroundContext := context.Background()
 
-    _, err := keys.Set(context, data.etcdKey, "42", &etcd.SetOptions{
+    _, err := keys.Set(backgroundContext, data.etcdKey, "42", &etcd.SetOptions{
         PrevExist: etcd.PrevNoExist,
         TTL: data.ttl,
         Refresh: false,
@@ -161,7 +162,7 @@ func refreshItem(data *runtimeData) error {
         return err
     }
 
-    _, err = keys.Set(context, data.etcdKey, "", &etcd.SetOptions{
+    _, err = keys.Set(backgroundContext, data.etcdKey, "", &etcd.SetOptions{
         PrevExist: etcd.PrevExist,
         TTL: data.ttl,
         Refresh: true,

@@ -6,6 +6,7 @@ import (
     "github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
     "github.com/maxmanuylov/jongleur/jongleur"
     "github.com/maxmanuylov/jongleur/utils"
+    "github.com/maxmanuylov/jongleur/utils/etcd"
     "strconv"
     "strings"
 )
@@ -28,49 +29,50 @@ func (config *Config) ToJongleurConfig() (*jongleur.Config, error) {
         return nil, errors.New("Invalid symbol in items: '/'")
     }
 
-    etcdKey := utils.EtcdItemsKey(config.Items)
+    etcdKey := etcd_utils.EtcdItemsKey(config.Items)
     remotePortStr := config.getRemotePortStr()
+
+    itemsLoader, err := etcd_utils.NewEtcdItemsLoader(config.Period, []string{config.Etcd}, func (etcdClient etcd.Client) ([]string, error) {
+        keys := etcd.NewKeysAPI(etcdClient)
+
+        response, err := keys.Get(context.Background(), etcdKey, nil)
+        if err != nil {
+            return nil, err
+        }
+
+        if response.Node == nil {
+            return nil, nil
+        }
+
+        newItems := make([]string, 0)
+
+        if response.Node.Nodes != nil {
+            for _, node := range response.Node.Nodes {
+                if !node.Dir {
+                    item := simpleKey(node.Key)
+
+                    if remotePortStr != "" {
+                        item = strings.Replace(item, "*", remotePortStr, -1)
+                    }
+
+                    if !strings.Contains(item, "*") {
+                        newItems = append(newItems, item)
+                    }
+                }
+            }
+        }
+
+        return newItems, nil
+    })
 
     return &jongleur.Config{
         Verbose: config.Verbose,
         Listen: config.Listen,
         Period: config.Period,
-        Etcd: []string{config.Etcd},
-        ItemsLoader: func (etcdClient etcd.Client) ([]string, error) {
-            keys := etcd.NewKeysAPI(etcdClient)
-
-            response, err := keys.Get(context.Background(), etcdKey, nil)
-            if err != nil {
-                return nil, err
-            }
-
-            if response.Node == nil {
-                return nil, nil
-            }
-
-            newItems := make([]string, 0)
-
-            if response.Node.Nodes != nil {
-                for _, node := range response.Node.Nodes {
-                    if !node.Dir {
-                        item := simpleKey(node.Key)
-
-                        if remotePortStr != "" {
-                            item = strings.Replace(item, "*", remotePortStr, -1)
-                        }
-
-                        if !strings.Contains(item, "*") {
-                            newItems = append(newItems, item)
-                        }
-                    }
-                }
-            }
-
-            return newItems, nil
-        },
+        ItemsLoader: itemsLoader,
         RequestPatcher: jongleur.IDENTICAL_PATCHER,
         ResponsePatcher: jongleur.IDENTICAL_PATCHER,
-    }, nil
+    }, err
 }
 
 func (config *Config) getRemotePortStr() string {

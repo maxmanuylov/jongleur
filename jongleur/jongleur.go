@@ -2,7 +2,6 @@ package jongleur
 
 import (
     "errors"
-    etcd "github.com/coreos/etcd/client"
     "github.com/maxmanuylov/jongleur/utils"
     "github.com/maxmanuylov/jongleur/utils/cycle"
     "github.com/maxmanuylov/utils/application"
@@ -15,7 +14,7 @@ import (
     "time"
 )
 
-type ItemsLoader func (etcdClient etcd.Client) ([]string, error)
+type ItemsLoader func () ([]string, error)
 
 type Patcher func(io.Writer) io.Writer
 
@@ -27,7 +26,6 @@ type Config struct {
     Verbose         bool
     Listen          string // "[<network>@]<addr>"
     Period          int
-    Etcd            []string
     ItemsLoader     ItemsLoader
     RequestPatcher  Patcher
     ResponsePatcher Patcher
@@ -45,11 +43,11 @@ func Run(config *Config, logger *log.Logger) error {
 
     defer data.mcycle.Stop()
 
-    etcdTicker := time.NewTicker(data.period)
-    defer etcdTicker.Stop()
+    syncTicker := time.NewTicker(data.period)
+    defer syncTicker.Stop()
 
     go func() {
-        for range etcdTicker.C {
+        for range syncTicker.C {
             syncItems(data)
         }
     }()
@@ -72,7 +70,6 @@ func Run(config *Config, logger *log.Logger) error {
 type runtimeData struct {
     period          time.Duration
     logger          *log.Logger
-    etcdClient      etcd.Client
     loadItems       ItemsLoader
     mcycle          *cycle.MutableCycle
     hosts           <-chan string
@@ -86,24 +83,11 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
         return nil, errors.New("Period must be positive")
     }
 
-    periodDuration := time.Duration(config.Period) * time.Second
-    semiPeriodDuration := periodDuration / 2
-
-    etcdClient, err := etcd.New(etcd.Config{
-        Endpoints:               config.Etcd,
-        Transport:               etcd.DefaultTransport,
-        HeaderTimeoutPerRequest: semiPeriodDuration,
-    })
-    if err != nil {
-        return nil, err
-    }
-
     hosts := make(chan string)
 
     return &runtimeData{
-        period: periodDuration,
+        period: time.Duration(config.Period) * time.Second,
         logger: logger,
-        etcdClient: etcdClient,
         loadItems: config.ItemsLoader,
         mcycle: cycle.NewMutableCycle(hosts, logger),
         hosts: hosts,
@@ -114,9 +98,9 @@ func (config *Config) createRuntimeData(logger *log.Logger) (*runtimeData, error
 }
 
 func syncItems(data *runtimeData) {
-    newItems, err := data.loadItems(data.etcdClient)
+    newItems, err := data.loadItems()
     if err != nil {
-        data.logger.Printf("Failed to get items from etcd: %v\n", err)
+        data.logger.Printf("Failed to load items: %v\n", err)
         return
     }
 
