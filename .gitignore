@@ -1,5 +1,7 @@
 /.idea/workspace.xml
 /bin/
 
+/build/env/Dockerfile
+
 /vendor/*
 !/vendor/vendor.json

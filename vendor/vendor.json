@@ -691,6 +691,12 @@
 			"versionExact": "v2.3.2"
 		},
 		{
+			"checksumSHA1": "lqu5iWeExKjNAgH+rDEaba1dOn4=",
+			"path": "github.com/maxmanuylov/utils/application",
+			"revision": "4f93c4a7a9e685f0026fe01104e31608d98d2318",
+			"revisionTime": "2017-01-27T15:25:55Z"
+		},
+		{
 			"checksumSHA1": "Hc7LMQrHR71kkSsd/P/SBdiC258=",
 			"path": "github.com/petar/GoLLRB/llrb",
 			"revision": "53be0d36a84c2a886ca057d34b6aa4468df9ccb4",

@@ -7,3 +7,4 @@ rm -rf vendor
 govendor init
 
 govendor fetch github.com/coreos/etcd@=$ETCD_VERSION
+govendor fetch github.com/maxmanuylov/utils/application
