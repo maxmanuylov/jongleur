@@ -27,4 +27,6 @@ BUILD=$BUILD
 REVISION=$REVISION
 EOF
 
+echo "##message{\"kind\":\"Status\",\"text\":\"OK\"}"
+
 cd "$OLD_WD"
