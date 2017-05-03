@@ -1,4 +1,7 @@
 /.idea/workspace.xml
+/.go
+/.pkg
+
 /bin/
 
 /build/env/Dockerfile
