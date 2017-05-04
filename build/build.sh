@@ -39,7 +39,7 @@ BUILD=$BUILD
 REVISION=$REVISION
 EOF
 
-echo "##message{\"kind\":\"Status\",\"text\":\"OK\"}"
+echo "##message{\"kind\":\"Status\", \"text\":\"OK\"}"
 
 rm -rf "$TEMP_GOPATH"
 
