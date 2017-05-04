@@ -37,6 +37,7 @@ tar czf bin/jongleur-$VERSION-linux.tar.gz --directory=bin/linux jongleur
 zip     bin/jongleur-$VERSION-windows.zip -j bin/windows/jongleur.exe
 
 cat <<EOF >bin/env.txt
+VERSION=$VERSION
 BUILD=$BUILD
 REVISION=$REVISION
 EOF
